@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>admin</title>
+</head>
+<body>
+
+<form th:action="@{/admin/add}" method="post">
+    login: <input type="text" name="login"/>
+    Password: <input type="text" name="password"/>
+    email: <input type="text" name="email"/>
+    role:
+    <select name="roleIds" th:size="${roles.size()}" multiple>
+        <option th:each="role: ${roles}" th:value="${role.id}" th:text="${role.role}"></option>
+    </select>
+    <br>
+    <button type="submit">add</button>
+</form>
+<a th:href="@{/logout}">Logout</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>login</th>
+        <th>password</th>
+        <th>email</th>
+        <th>roles</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user: ${users}">
+        <td th:text="${user.id}" />
+        <td th:text="${user.login}" />
+        <td th:text="${user.password}" />
+        <td th:text="${user.email}" />
+        <td>
+            <select name="roleIds" th:size="${user.role.size()}" multiple disabled>
+                <option th:each="role: ${user.role}" th:value="${role.id}" th:text="${role.role}"></option>
+            </select>
+        </td>
+        <td>
+            <form th:action="@{/admin/edit}" method="get">
+                <button type="submit" name="id" th:value="${user.id}">edit</button>
+            </form>
+        </td>
+        <td>
+            <form th:action="@{/admin/delete}" method="post">
+                <button type="submit" name="id" th:value="${user.id}">delete</button>
+            </form>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
